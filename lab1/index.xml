@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./style.css" type="text/css"?>
+<!DOCTYPE reminders>
+<reminders>
+<br/>
+    <reminder class="light">
+
+        <title>Сходить в компы</title>
+        <date>        
+            <day>2</day>
+            <month>march</month>
+            <year>2025</year>
+        </date>
+    </reminder>
+
+    <reminder class="mid">
+        <title >Концерт 9mice и kai angel</title>
+        <date>
+            <day>2</day>
+            <month>may</month>
+            <year>2025</year>
+        </date>
+    </reminder>
+
+    <reminder class="warning">
+        <title>Сдать лабу</title>
+        <date>
+            <day>7</day>
+            <month>february</month>
+            <year>2025</year>
+        </date>
+    </reminder>
+
+    <reminder class="light">
+        <title>Очень длинная напоминалка настолько длинная что не помещается в одну строку боже мой какой ужас аааааа</title>
+        <date>
+            <day>7</day>
+            <month>february</month>
+            <year>2025</year>
+        </date>
+    </reminder>
+
+</reminders>
