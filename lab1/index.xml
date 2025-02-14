@@ -2,7 +2,6 @@
 <?xml-stylesheet href="./style.css" type="text/css"?>
 <!DOCTYPE reminders>
 <reminders>
-<br/>
     <reminder class="light">
 
         <title>Сходить в компы</title>

@@ -1,0 +1,24 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgb(34, 34, 36);
+    color: rgb(239, 240, 225)
+}
+
+input {
+    border-radius: 5px;
+}
+
+.reminder-item {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    border-radius: 5px;
+    background-color: rgb(48, 48, 49);
+    padding: 10px;
+    margin: 10px;
+}
+
+.reminder-body {
+    display: flex;
+    justify-content: start;
+}

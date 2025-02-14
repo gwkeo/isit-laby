@@ -1,0 +1,17 @@
+<reminders>
+    <reminder class="light">
+        <title>Сходить в компы</title>
+        <date>2 march 2025</date>
+    </reminder>
+
+    <reminder class="mid">
+        <title >Концерт 9mice и kai angel</title>
+        <date>2 may 2025</date>
+    </reminder>
+
+    <reminder class="warning">
+        <title>Сдать лабу</title>
+        <date>17 february 2025</date>
+    </reminder>
+
+</reminders>
