@@ -1,11 +1,22 @@
+:root {
+    --font-color: rgb(239, 240, 225);
+}
+
 body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: rgb(34, 34, 36);
-    color: rgb(239, 240, 225)
+    color: var(--font-color)
 }
 
 input {
     border-radius: 5px;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--font-color)
 }
 
 .reminder-item {
