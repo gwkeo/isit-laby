@@ -11,7 +11,6 @@ xhr.onload = function () {
         output.innerHTML = "";
 
         for (let i = 0; i < reminders.length; i++) {
-            console.log(i)
             let reminderItem = getReminder(i, reminders);
             output.appendChild(reminderItem);
         }
@@ -20,7 +19,7 @@ xhr.onload = function () {
         if (input) {
             input.onchange = function () {
                 let index = Number(input.value)
-                if (index || index === 0) {
+                if (index || index == 0) {
                     let numOutput = document.querySelector('.num-output');
                     numOutput.innerHTML = '';
                     let reminderItem = getReminder(index, reminders);
