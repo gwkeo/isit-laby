@@ -28,6 +28,18 @@ xhr.onload = function () {
             }
         }
 
+        output.addEventListener("click", function(event) {
+            let link = event.target.closest(".reminder-title");
+            if (link) {
+                event.preventDefault(); // Отменяем стандартный переход по ссылке
+                let checkboxId = link.getAttribute("id"); // Получаем ID чекбокса
+                let checkbox = document.getElementById(checkboxId);
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked; // Переключаем состояние
+                }
+            }
+        })
+
     } else {
         console.log("unable to open xml");
     }
@@ -42,9 +54,9 @@ function getReminder(index, reminders) {
     const reminderItem = document.createElement('div');
     reminderItem.className = "reminder-item";
     reminderItem.innerHTML = `
-    <div class="reminder-body">
-        <input type="checkbox" name="" id="">
-        <a class="reminder-title" href="#">${title}</div>
+    <div class="reminder">
+        <input type="checkbox" id="${index}">
+        <a class="reminder-title" href="#" id="${index}">${title}</div>
     </div>
     <div class="reminder-footer">${date}</div>`
 
