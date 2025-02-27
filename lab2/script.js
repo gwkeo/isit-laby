@@ -19,11 +19,15 @@ xhr.onload = function () {
         if (input) {
             input.onchange = function () {
                 let index = Number(input.value)
-                if (index || index == 0) {
-                    let numOutput = document.querySelector('.num-output');
+                let numOutput = document.querySelector('.num-output');
+                if (index > -1 && index < reminders.length) {
                     numOutput.innerHTML = '';
                     let reminderItem = getReminder(index, reminders);
                     numOutput.appendChild(reminderItem);
+                } else if (index < 0) {
+                    numOutput.innerHTML = output.innerHTML
+                } else {
+                    numOutput.innerHTML = "<div> Ничего не найдено </div>"
                 }
             }
         }
@@ -53,8 +57,7 @@ function getReminder(index, reminders) {
 
     const reminderItem = document.createElement('div');
     reminderItem.className = "reminder-item";
-    reminderItem.innerHTML = `
-    <div class="reminder">
+    reminderItem.innerHTML = `<div class="reminder">
         <input type="checkbox" id="${index}">
         <a class="reminder-title" href="#" id="${index}">${title}</div>
     </div>
