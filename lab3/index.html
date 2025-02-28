@@ -3,9 +3,23 @@
 <head>
     <title>ЛР №3</title>
     <style>
+        :root {
+            --default-text-color: #f1f1f1;
+            --faded-text-color: #a4a4a4;
+            --default-background-color: #1f1f1f;
+            --lighter-background-color: #4f4f4f;
+        }
+
         body {
+            background-color: var(--default-background-color);
+            color: var(--default-text-color);
             font-size: 20px;
             font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--default-text-color)
         }
 
         .content {
@@ -16,12 +30,19 @@
 
         .friend {
             padding: 10px;
+            margin: 10px;
             text-decoration: none;
-            color: black;
+            background-color: var(--lighter-background-color);
+            display: block;
+            border-radius: 10px;
+        }
+
+        .name {
+            font-weight: bold;
         }
 
         .city {
-            color: gray;
+            color: var(--faded-text-color);
         }
 
         button {
@@ -35,44 +56,35 @@
 <body>
     <script src="./jquery.js"></script>
     <script>
+        let friends = new Array<Object>{}
+        let showFriend = (friend) => {
+            let city =  friend.city ? friend.city.title : "не указан"
+            $('.friends-list').append(`
+                <a class="friend" href='https://vk.com/id${friend.id}'>
+                    <div class="name">${friend.first_name} ${friend.last_name}</div>
+                    <div class="city">${city}</div>
+                </a>
+            `);
+        }
+
         $(document).ready(function () {
-            const api_key = "61770d2861770d2861770d2806625c3fae6617761770d2806b770b321982d903f6d1668"
-            const user_id = '199724269'
+
             let maxlen = 10
-            let load = () => {
+            $.getJSON({
+                url: `https://api.vk.com/method/friends.get?user_id=${user_id}&access_token=${api_key}&fields=city,status&v=5.81`,
+                jsonp: "callback",
+                dataType: "jsonp",
+                success: function(data) {
+                    $(".friends-list").empty()
+                    friends = data.response.items
 
-                $.getJSON({
-                    url: `https://api.vk.com/method/friends.get?user_id=${user_id}&access_token=${api_key}&fields=city,status&v=5.81`,
-                    jsonp: "callback",
-                    dataType: "jsonp",
-                    success: function(data) {
-                        console.log(data)
-                        const friends = data.response.items
-                        let i = 0
-                        friends.forEach(friend => {
-                            if (i < maxlen) {
-                                let city =  friend.city ? friend.city.title : "не указан"
-                                $('.friends-list').append(`
-                                    <a class="friend" href='https://vk.com/id${friend.id}''>
-                                        <div class="name">${friend.first_name} ${friend.last_name}</div>
-                                        <div class="city">${city}</div>
-                                    </a>
-                                `);
-                                i++
-                            }
-                        });
-                    }
-    
-                })
-            }
-
-            load()
-
-            $("button").click(function () {
-                maxlen += 10
-                load()
+                    friends.forEach(friend => {
+                        showFriend(friend)
+                    });
+                }
             })
         })
+        
     </script>
 
     <div class="list">
@@ -80,7 +92,6 @@
         <div class="content">
             <div class="friends-list"></div>
         </div>
-        <button class="">Click</button>
     </div>
 </body>
 
