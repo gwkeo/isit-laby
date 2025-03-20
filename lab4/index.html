@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ЛР №4</title>
+    <style>
+        body {
+            background-color: #1f1f1f;
+            color: white;
+        }
+
+        input {
+            font-size: large;
+            border: 0;
+            border-radius: 5px;
+        }
+
+        button {
+            font-size: large;
+        }
+    </style>
+    <script src="./jquery.js"></script>
+</head>
+
+<body>
+    <script>
+        get_token = 'https://oauth.vk.com/authorize?client_id=53162630&redirect_url=https://oauth.vk.com/blank.html&response_type=token&scope=status,offline,phone_number'
+        
+        $(document).ready(function() {
+            $("#load").click(function() {
+                let text = $("#set-status").val()
+                alert(text)
+                $.post({
+                    url: `https://api.vk.com/method/status.set?text=${text}&access_token=${access_token}&v=5.131'`,
+                    jsonp: "callback",
+                    dataType: "jsonp",
+                })
+            })
+        })
+    </script>
+    <div>
+        <input type="text" id="set-status">
+        <button id="load">Load</button>
+    </div>
+</body>
+</html>
