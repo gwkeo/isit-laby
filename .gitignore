@@ -1,2 +1,3 @@
-.DS_Store
-lab*/config.xml
+*/.DS_Store
+*/.idea
+*/venv

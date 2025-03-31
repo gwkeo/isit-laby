@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ЛР №6</title>
+    <style>
+        body {
+            background-color: #1f1f1f;
+            color: #f1f1f1;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .item {
+            background-color: #2f2f2f;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <script src="../jquery.js"></script>
+    <script>
+        $(document).ready(() => {
+            const token = ''
+            const url = 'https://api.telegram.org/bot' + token + '/getUpdates?offset=-1'
+            $.getJSON({
+                url: url,
+                dataType: 'json',
+                jsonp: 'callback',
+                success: (data) => {
+                    $('.output').append(`<div class="item">
+                        <div>${data.result[0].message.chat.first_name}</div>
+                        <div>${data.result[0].message.text}</div>
+                    </div>`)
+                    console.log(data)
+                }
+            })
+        })
+    </script>
+
+    <h1>Последнее сообщения</h1>
+    <div class="output"></div>
+</body>
+</html>
