@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ЛР №5 и №6</title>
+    </head>
+
+    <style>
+        body {
+            background-color: #4a4a4a;
+            color: #ececec;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        input {
+            border-radius: 5px;
+            font-size: large;
+            border: 0;
+            padding: 2px;
+        }
+
+        button {
+            font-size: large;
+        }
+
+        .code {
+            font-family: 'JetBrains Mono';
+        }
+
+    </style>
+    <body>
+        <script src="./../jquery.js"></script>
+        <script class="scr">
+            let u = 'https://oauth.vk.com/authorize?client_id=53162630&redirect_url=https://oauth.vk.com/blank.html&response_type=token&scope=groups,wall,offline'
+            const maxNumOfRequests = 4
+
+            function getGroups(num) {
+                let gwkeo = "199724269"
+                let url = `https://api.vk.com/method/groups.get?user_id=${gwkeo}&count=${num}&access_token=${token}&v=5.199`
+                return new Promise((resolve, reject) => {
+                    $.getJSON({
+                        url: url,
+                        jsonp: "callback",
+                        dataType: "jsonp",
+                        success: (data) => resolve(data),
+                        error: (err) => reject(err)
+                    })
+                })
+            }
+
+            function getGroupsDescriptions(group_ids) {
+                let url = `https://api.vk.com/method/groups.getById?group_ids=${group_ids.join(',')}&fields=description&access_token=${token}&v=5.199`
+                return new Promise((resolve, reject) => {
+                    $.getJSON({
+                        url: url,
+                        jsonp: "callback",
+                        dataType: "jsonp",
+                        success: (data) => resolve(data),
+                        error: (err) => reject(err)
+                    })
+                })
+            }
+
+            function getGroupMembersNumber(group_id) {
+                let url = `https://api.vk.com/method/groups.getMembers?group_id=${group_id}&access_token=${token}&v=5.199`
+                return new Promise((resolve, reject) => {
+                    $.getJSON({
+                        url: url,
+                        jsonp: "callback",
+                        dataType: "jsonp",
+                        success: (data) => resolve(data),
+                        error: (err) => reject(err)
+                    })
+                })
+            }
+
+            function showOutput(message) {
+                let url = `https://api.vk.com/method/wall.post?owner_id=199724269&message=${message}&access_token=${token}&v=5.199`
+
+                return new Promise((resolve, reject) => {
+                    $.getJSON({
+                        url: url,
+                        jsonp: "callback",
+                        dataType: "jsonp",
+                        success: (data) => resolve(data),
+                        error: (err) => reject(err)
+                    })
+                })
+            }
+
+            async function fetchGroups(num) {
+                try {
+                    const groups = await getGroups(num);
+                    let items = groups.response.items;
+                    const descriptions = await getGroupsDescriptions(items);
+                    items = descriptions.response.groups;
+
+                    const delay = 1000 / maxNumOfRequests;
+                    let lastRequestTime = 0;
+
+                    let message = ""
+
+                    for (let i = 0; i < items.length; i++) {
+                        const now = Date.now();
+                        const timeSinceLastRequest = now - lastRequestTime;
+                        
+                        if (timeSinceLastRequest < delay) {
+                            await new Promise(resolve => setTimeout(resolve, delay - timeSinceLastRequest));
+                        }
+
+                        lastRequestTime = Date.now();
+                        const membersCount = await getGroupMembersNumber(items[i].id);
+                        let count = 0
+                        if (membersCount.response) {
+                            count = membersCount.response.count
+                        }
+
+                        message += `${i+1}. Сообщество: ${items[i].name}, Число подписчиков ${count} \n`
+                    }
+
+                    const response = await showOutput(message)
+                    console.log(response)
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            let num = 5
+            $(document).ready(() => {
+                $('input').on('change', (e) => {
+                    let numRaw = parseInt(e.currentTarget.value)
+                    if (numRaw) {
+                        num = numRaw
+                    }
+                })
+
+                $(`button`).on('click', () => {
+                    fetchGroups(num)
+                })
+            })
+
+        </script>
+
+        <div>
+            <h1>Число групп</h1>
+            <input type="text" placeholder="собака">
+            <button>Выполнить</button>
+        </div>
+    </body>
+</html>
