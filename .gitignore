@@ -2,4 +2,6 @@
 */.idea
 */config.xml
 .venv
-__pychache__
+/.vscode
+/.idea
+/images
