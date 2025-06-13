@@ -25,7 +25,6 @@
             $.getJSON({
                 url: url,
                 dataType: 'json',
-                jsonp: 'callback',
                 success: (data) => {
                     $('.output').append(`<div class="item">
                         <div>${data.result[0].message.chat.first_name}</div>
@@ -34,10 +33,12 @@
                     console.log(data)
                 }
             })
+
+
         })
     </script>
 
-    <h1>Последнее сообщения</h1>
+    <h1>Последнее сообщение</h1>
     <div class="output"></div>
 </body>
 </html>
