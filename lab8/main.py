@@ -1,21 +1,51 @@
 import telebot
 from telebot import types
 
-token = ''
-
 bot = telebot.TeleBot(token)
 @bot.message_handler(commands=['start'])
 def start(message):
-    msg = bot.send_message(message.chat.id, "Привет, мир!")
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(*[types.KeyboardButton(name) for name in ['живое', 'неживое']])
-    msg = bot.send_message(message.chat.id, 'Что выбираешь?', reply_markup=keyboard)
+    keyboard.add(*[types.KeyboardButton(name) for name in ['аа', 'аб', 'ба', 'бб']])
+    bot.send_message(message.chat.id, "а!", reply_markup=keyboard)
 
 @bot.message_handler()
-def name(m):
-    if m.text == 'живое':
-        bot.send_message(m.chat.id, 'вы выбрали живое')
-    else:
-        bot.send_message(m.chat.id, 'вы выбрали неживое')
+def start(message):
+    match(message.text):
+        case "аа":
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['ааа', 'ааб', 'абб', 'бба']])
+            bot.send_message(chat_id=message.chat.id, text=f"{message.text})!", reply_markup=keyboard)
+        case "аб":
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['ааб', 'абб', 'бба', 'баа']])
+            bot.send_message(chat_id=message.chat.id, text=f"{message.text})!", reply_markup=keyboard)
+        case "ба":
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['баа', 'ааа', 'ааб', 'абб']])
+            bot.send_message(chat_id=message.chat.id, text=f"{message.text})!", reply_markup=keyboard)
+        case "бб":
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['бба', 'баа', 'ааа', 'ааб']])
+            bot.send_message(chat_id=message.chat.id, text=f"{message.text})!", reply_markup=keyboard)
+        case "ааа":
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['аааа', 'аааб', 'аабб', 'абба']])
+            bot.send_message(chat_id=message.chat.id, text=f"{message.text})!", reply_markup=keyboard)
+        case "ааб":
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['аааб', 'аабб', 'абба', 'ббаа']])
+            bot.send_message(chat_id=message.chat.id, text=f"{message.text})!", reply_markup=keyboard)
+        case "абб":
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['ббаа', 'бааа', 'аааа', 'аааб']])
+            bot.send_message(chat_id=message.chat.id, text=f"{message.text})!", reply_markup=keyboard)
+        case "бба":
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['абба', 'ббаа', 'бааа', 'аааа']])
+            bot.send_message(chat_id=message.chat.id, text=f"{message.text})!", reply_markup=keyboard)
+        case _:
+            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            keyboard.add(*[types.KeyboardButton(name) for name in ['аа', 'аб', 'ба', 'бб']])
+            bot.send_message(message.chat.id, "а!", reply_markup=keyboard)
 
 bot.polling(none_stop=True)
