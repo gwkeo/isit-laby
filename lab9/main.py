@@ -9,8 +9,8 @@ count = 0
 def markup(c):
     c = int(c)
     keyboard = types.InlineKeyboardMarkup()
-    up_button = types.InlineKeyboardButton(text="Up", callback_data=f"up:{c+1}")
-    down_button = types.InlineKeyboardButton(text="Сам такой", callback_data=f"down:{c-1}")
+    up_button = types.InlineKeyboardButton(text="Мне нравится", callback_data=f"up:{c+1}")
+    down_button = types.InlineKeyboardButton(text="Мне не нравится", callback_data=f"down:{c-1}")
     keyboard.add(up_button, down_button)
     return keyboard
 

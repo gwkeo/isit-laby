@@ -1,10 +1,8 @@
-import os
 import telebot
 from telebot import types
 import markups
 import currency
 from enum import Enum, auto
-from graphs import plot_adaptive
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -72,7 +70,7 @@ def currencie_choosen(message):
 
     if user_states[id].step == States.date_start:
         if text == '-':
-            currency_value = currency.get_currency_value(i[0])
+            currency_value = currency.get_currency_value(user_states[id].currency)
             bot.send_message(chat_id=id, text=currency_value, reply_markup=None)
             bot.send_message(chat_id=id, text='Выберите валюту', reply_markup=markups.currency_markup())
         else:
@@ -100,6 +98,7 @@ def currencie_choosen(message):
             with open(res, "rb") as plot:
                 bot.send_photo(chat_id=id, photo=plot)
         bot.send_message(chat_id=id, text='Выберите валюту', reply_markup=markups.currency_markup())
+        user_states[id].step = States.choosing_currency
         return
 
 bot.polling(none_stop=True)

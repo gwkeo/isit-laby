@@ -13,6 +13,18 @@
             background-color: #2f2f2f;
             border-radius: 5px;
             padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        img {
+            border-radius: 100%;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .name {
+            color: lightgray;
         }
     </style>
 </head>
@@ -25,20 +37,31 @@
             $.getJSON({
                 url: url,
                 dataType: 'json',
+                jsonp: 'callback',
                 success: (data) => {
-                    $('.output').append(`<div class="item">
-                        <div>${data.result[0].message.chat.first_name}</div>
-                        <div>${data.result[0].message.text}</div>
-                    </div>`)
+
+                    const url = 'https://api.telegram.org/bot'+token+'/getUserProfilePhotos?user_id=' + data.result[0].message.chat.id + '&offset=1'
+                    $.getJSON(url).then(profile_data => {
+                        photo_url = 'https://api.telegram.org/bot' + token + '/getFile?file_id=' + profile_data.result.photos[0][0].file_id
+                        $.getJSON(photo_url).then(photo_data => {
+                            file_url = 'https://api.telegram.org/file/bot' + token + '/' + photo_data.result.file_path
+                            console.log(photo_url)
+                            $('.output').append(`<div class="item">
+                                <img src="${file_url}">
+                                <div class="message-content">
+                                    <div class="name">${data.result[0].message.chat.first_name}</div>
+                                    <div>${data.result[0].message.text}</div>
+                                </div>
+                            </div>`)
+                        })
+                    })
                     console.log(data)
                 }
             })
-
-
         })
     </script>
 
-    <h1>Последнее сообщение</h1>
+    <h1>Последнее сообщения</h1>
     <div class="output"></div>
 </body>
 </html>

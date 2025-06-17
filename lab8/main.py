@@ -1,15 +1,24 @@
 import telebot
 from telebot import types
 
+count = 0
+
 bot = telebot.TeleBot(token)
 @bot.message_handler(commands=['start'])
 def start(message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(*[types.KeyboardButton(name) for name in ['аа', 'аб', 'ба', 'бб']])
-    bot.send_message(message.chat.id, "а!", reply_markup=keyboard)
+    keyboard.add(*[types.KeyboardButton(name) for name in ['аа', 'аб', 'ба', 'бб']])    
+    bot.send_message(message.chat.id, f"а! для отображения числа нажатий исопльзуйте команду /count", reply_markup=keyboard)
+
+@bot.message_handler(commands=['count'])
+def show_count(message):
+    global count
+    bot.send_message(chat_id=message.chat.id, text=f"Число нажатий: {count}")
 
 @bot.message_handler()
-def start(message):
+def msg(message):
+    global count
+    count += 1
     match(message.text):
         case "аа":
             keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -47,5 +56,6 @@ def start(message):
             keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
             keyboard.add(*[types.KeyboardButton(name) for name in ['аа', 'аб', 'ба', 'бб']])
             bot.send_message(message.chat.id, "а!", reply_markup=keyboard)
+        
 
 bot.polling(none_stop=True)

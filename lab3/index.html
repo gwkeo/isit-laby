@@ -26,6 +26,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-top: 15px;
         }
 
         .friend {
@@ -48,7 +49,17 @@
         button {
             margin: 10px;
             padding: 5px;
+        }
 
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding-bottom: 15px;
+            text-align: center;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -57,6 +68,9 @@
     <script src="./jquery.js"></script>
     <script>
         let friends = new Array<Object>{}
+        let maxlen = 10
+        friends = []
+
         let showFriend = (friend) => {
             let city =  friend.city ? friend.city.title : "не указан"
             $('.friends-list').append(`
@@ -68,8 +82,15 @@
         }
 
         $(document).ready(function () {
+            $('.show-more').click(() => {
+                $('.friends-list').empty()
+                maxlen += 10;
+                for (let i = 0; i < maxlen; i++) {
 
-            let maxlen = 10
+                    showFriend(friends[i])
+                }
+            })
+
             $.getJSON({
                 url: `https://api.vk.com/method/friends.get?user_id=${user_id}&access_token=${api_key}&fields=city,status&v=5.81`,
                 jsonp: "callback",
@@ -78,9 +99,9 @@
                     $(".friends-list").empty()
                     friends = data.response.items
 
-                    friends.forEach(friend => {
-                        showFriend(friend)
-                    });
+                    for (let i = 0; i < maxlen; i++) {
+                        showFriend(friends[i])
+                    }
                 }
             })
         })
@@ -93,6 +114,9 @@
             <div class="friends-list"></div>
         </div>
     </div>
+    <nav class="footer">
+        <button class="show-more">Показать еще</button>
+    </nav>
 </body>
 
 </html>
